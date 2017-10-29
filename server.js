@@ -4,19 +4,36 @@ var serveIndex  = require('serve-index')
 var serveStatic = require('serve-static')
 var ftpd        = require('ftpd');
 
+
+try {
+  var args      = require('cli.args')(['ftp:', 'http:', 'help', 'h']);  
+} catch(err) {
+  help();
+  return;
+}
+
+if(args.help || args.h) {
+  help();
+  return; 
+}
+
 var app 			  = express();
 
+var http_options = {
+  port: args.http || 80
+}
+
 var ftp_options = {
-  host: process.env.IP   || '127.0.0.1',
-  port: process.env.PORT || 21,
+  host: '127.0.0.1',
+  port: args.ftp || 21,
   tls: null
 };
 
 app.use("/", serveIndex(path.join('./')));
 app.use("/", serveStatic(path.join('./')));
 
-app.listen(80, function() {
-	console.log("Listening at port 80");
+app.listen(http_options.port, function() {
+	console.log("HTTP Listening at port " + http_options.port);
 });
 
 
@@ -59,6 +76,10 @@ ftp_server.on('client:connected', function(connection) {
   });
 });
 
+function help() {
+  console.log("[sudo] ftp_server [--ftp port] [--http port]");
+}
+
 ftp_server.debugging = 4;
 ftp_server.listen(ftp_options.port);
-console.log('Listening on port ' + ftp_options.port);
+console.log('FTP Listening at port ' + ftp_options.port);
