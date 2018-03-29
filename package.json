@@ -15,7 +15,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "node server.js",
-    "compile": "pkg server.js --out-path output/ --targets node7-linux-x64,node7-macos-x64"
+    "compile": "mkdir -p output && pkg server.js --out-path output/ --targets node7-linux-x64,node7-macos-x64"
   },
   "author": "Veera",
   "license": "ISC"

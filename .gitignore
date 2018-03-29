@@ -50,10 +50,14 @@ typings/
 
 # Output of 'npm pack'
 *.tgz
+output/
 
 # Yarn Integrity file
 .yarn-integrity
 
 # dotenv environment variables file
 .env
+
+# macos
+.DS_Store
 

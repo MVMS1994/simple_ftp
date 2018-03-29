@@ -6,7 +6,7 @@ var ftpd        = require('ftpd');
 
 
 try {
-  var args      = require('cli.args')(['ftp:', 'http:', 'help', 'h']);  
+  var args = require('cli.args')(['ftp:', 'http:', 'help', 'h', 'auth', 'a']);  
 } catch(err) {
   help();
   return;
@@ -16,8 +16,6 @@ if(args.help || args.h) {
   help();
   return; 
 }
-
-var app 			  = express();
 
 var http_options = {
   port: args.http || 80
@@ -29,6 +27,12 @@ var ftp_options = {
   tls: null
 };
 
+
+
+/*++++++++++++++++++ HTTP SERVER STARTS ++++++++++++++++++*/
+
+var app = express();
+
 app.use("/", serveIndex(path.join('./')));
 app.use("/", serveStatic(path.join('./')));
 
@@ -36,7 +40,17 @@ app.listen(http_options.port, function() {
 	console.log("HTTP Listening at port " + http_options.port);
 });
 
+/*++++++++++++++++++  HTTP SERVER ENDS  ++++++++++++++++++*/
 
+
+
+
+
+
+
+
+
+/*++++++++++++++++++  FTP SERVER STARTS ++++++++++++++++++*/
 
 ftp_server = new ftpd.FtpServer(ftp_options.host, {
   getInitialCwd: function() {
@@ -76,10 +90,15 @@ ftp_server.on('client:connected', function(connection) {
   });
 });
 
-function help() {
-  console.log("[sudo] ftp_server [--ftp port] [--http port]");
-}
-
 ftp_server.debugging = 4;
 ftp_server.listen(ftp_options.port);
 console.log('FTP Listening at port ' + ftp_options.port);
+
+/*++++++++++++++++++  FTP SERVER ENDS  +++++++++++++++++++*/
+
+
+
+
+function help() {
+  console.log("[sudo] ftp_server [--ftp port] [--http port] [--auth pwd]");
+}
