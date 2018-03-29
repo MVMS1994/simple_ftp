@@ -7,12 +7,12 @@ Creates a Simple FTP, HTTP server.
 3. Arch - 64 bits
 
 ## Installation
-1. git clone https://github.com/MVMS1994/simple_ftp.git
+1. https://github.com/MVMS1994/simple_ftp/releases
 
 ## Usage
 Goto the directory that you want to start ftp and http server
 #### Linux
-`sudo ./<path_to_simple_ftp>/output/server-linux`
+`sudo server-linux`
 
 #### MacOS
-`sudo ./<path_to_simple_ftp>/output/server-macos`
+`sudo server-macos`
